@@ -60,4 +60,44 @@ public class WiseSayingController {
 			return;
 		}
 	}
+	
+	private WiseSaying findById(int id) {
+		for (WiseSaying wiseSaying : wiseSayings) {
+			if (wiseSaying.getId() == id) {
+				return wiseSaying;
+			}
+		}
+
+		return null;
+	}
+	
+	public void update(Rq rq) {
+
+		int id = rq.getIntParam();
+		
+		if (id == -1) {
+			System.out.println("id(정수)를 제대로 입력해주세요");
+			return;
+		}
+		
+		WiseSaying wiseSaying = findById(id);
+		
+		if (wiseSaying == null) {
+			System.out.printf("%d번 명언은 존재하지 않습니다.\n", id);
+			return;
+		}
+		
+		WiseSaying ws = wiseSayings.get((wiseSaying.getId()-1));
+		System.out.println("명언 : " + ws.getContent());
+		System.out.print("(새)명언 : ");
+		String content = Container.getScanner().nextLine().trim();
+		ws.setContent(content);
+		System.out.println("작가 : " + ws.getAuthor());
+		System.out.print("(새)작가 : ");
+		String author = Container.getScanner().nextLine().trim();
+		ws.setAuthor(author);
+		
+		System.out.printf("%d번 명언이 수정되었습니다.\n", id);
+	}
+	
 }
